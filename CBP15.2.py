@@ -77,12 +77,57 @@ def callback2():
             logr = 0
             global logt
             logt = open(folderpath + '/log.txt', 'w')
+
+
             
             # 2016/5/12增加一个全局变量logt存放error log
-            # winwbapp = win32com.client.Dispatch('Excel.Application')
-            # winwbapp.Visible = False
-            # TRule12 = winwbapp.Workbooks.Open(folderpath + '/result.xlsx')
-            # TRtemp = winwbapp.Workbooks.Open(folderpath + '/Rules.xlsx')
+            winwbapp = win32com.client.Dispatch('Excel.Application')
+            winwbapp.Visible = False
+            TRule12 = winwbapp.Workbooks.Open(folderpath + '/result.xlsx')
+            TRtemp = winwbapp.Workbooks.Open(folderpath + '/Rule.xlsx')
+            # 判断不是空表格
+            for Li in Z:
+                if Li == 'SD&Others': 
+                    pass
+                else:
+                    Resultrow = TRule12.Sheets(Li).UsedRange.Rows.Count
+                    if Resultrow == 2:
+                        print 'ERROR CODE'
+                    else:  
+                        Rulerow = TRtemp.Sheets(Li).UsedRange.Rows.Count
+                        column_in = [1]
+                        # ,2,3,4,5,7,10,11
+                        for Resultsever in range(2, Resultrow+1):
+                            print 'error code2'
+                            for columnsever in column_in:
+                                print 'error code3'
+                                for Rulesever in range(13, Rulerow+1):
+                                    print 'error code4'
+                                    if TRtemp.Sheets('IMF').Cells(Rulesever, 1).value == '':
+                                        print 'error code5'
+
+                                    else:
+                                        if TRule12.Sheets('IMF').Cells(Resultsever,1).value == TRtemp.Sheets('IMF').Cells(Rulesever, 1).value:
+                                            print 'pass'
+                                            print TRule12.Sheets('IMF').Cells(Resultsever,1).value
+                                            Resultsever += 1
+                                        else:
+                                            print 'error code6'
+
+
+                
+
+                                
+
+            # Resultrowtt = TRtemp.Sheets('IMF').UsedRange.Rows.Count   
+                
+        
+            # print Resultrowtt
+            # ddd = TRtemp.Sheets('Auto DEV').Cells(2,2).value
+         
+
+    
+                    
             # for Li in Z:
             #     if Li == 'SD&Others_Daily Resource Track':
             #         pass
@@ -371,18 +416,18 @@ def callback2():
             #                     log = Li + ' ' + str(i) + ' ' + str(6)
             #                     logt.write(log + '\n')
             #                     # Rule6
-            # Newfolderpath = folderpath.replace('/', "\\")
-            # TRule12.SaveAs(Newfolderpath + '\\rule12.xlsx')
-            
-            # TRule12.Close()
-            # winwbapp.Quit()
+            Newfolderpath = folderpath.replace('/', "\\")
+            TRule12.SaveAs(Newfolderpath + '\\rule12.xlsx')
+            TRtemp.close
+            TRule12.Close()
+            winwbapp.Quit()
             
             #2016/5/12增加一步对Rules的判断
             # 临时表格tempwb
             winwbapp = win32com.client.Dispatch('Excel.Application')
             winwbapp.Visible = False
             tempwb = winwbapp.Workbooks.Open(folderpath + '/Temple.xlsx')
-            TTwb = winwbapp.Workbooks.Open(folderpath + '/result.xlsx')
+            TTwb = winwbapp.Workbooks.Open(folderpath + '/rule12.xlsx')
             # TRtemp = winwbapp.Workbooks.Open(folderpath + '/Rules.xlsx')
             tempwbs = tempwb.Sheets(1)
             tempwbs2 = tempwb.Sheets(2)
